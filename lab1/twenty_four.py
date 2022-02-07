@@ -1,15 +1,17 @@
 from random import randint
 
 
-def solver(digits, results):
-    print(digits)
+def solver(digits):
+    digits.sort()
+    length = len(digits)
+    highVal = digits[length-1]
 
 
 def main():
     digits = []
     for i in range(4):
         digits.append(randint(1,13))
-    solver(digits, 0)
+    print(solver(digits))
 
 if __name__ == "__main__":
     main()
