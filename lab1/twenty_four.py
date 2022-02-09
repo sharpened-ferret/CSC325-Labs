@@ -20,7 +20,6 @@ def combine(a, b):
     return values, calculations
 
 def calc_to_string(calc_history, calc):
-    print(calc)
     return "({} {} {})".format(calc_history[calc[0]], calc[1], calc_history[calc[2]])
 
 def solve(digits, goal, calcs):
@@ -58,13 +57,10 @@ def solve(digits, goal, calcs):
             # Gets the positions of the digits used
             a_pos = new_digits.index(pair[0])
             
-            str_form = "Popping {}, val {}"
-            print(str_form.format(pair[0], new_digits[a_pos]))
             new_digits.pop(a_pos)
             calc_history.append(new_calcs.pop(a_pos))
 
             b_pos = new_digits.index(pair[1])
-            print(str_form.format(pair[1], new_digits[b_pos]))
             new_digits.pop(b_pos)
             new_digits.append(result)
 
@@ -72,8 +68,6 @@ def solve(digits, goal, calcs):
             calc_history.append(new_calcs.pop(b_pos))
             calc_str = calc_to_string(calc_history, calc)
             new_calcs.append(calc_str)
-            print(new_calcs)
-            print(new_digits)
             
             recurr = solve(new_digits, goal, new_calcs)
             if recurr:
