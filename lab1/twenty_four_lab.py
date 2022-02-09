@@ -88,9 +88,9 @@ def main():
         digits.append(randint(1,13))
 
     time_one = time.time()
-    solve(digits, goal=24, calcs="", all_values=True)
-    time_two = time.time()
     single_result = solve(digits, goal=24, calcs="", all_values=False)
+    time_two = time.time()
+    solve(digits, goal=24, calcs="", all_values=True)
     time_three = time.time()
 
     single_runtime = time_two - time_one
