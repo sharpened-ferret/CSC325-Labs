@@ -109,3 +109,11 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+"""
+Task 2:
+
+Changes to a, b, or M should have a minimal effect on the program performance,
+however, increases in n will have a significant effect, since the program loops
+over all possible pairs of digits in n, so increases with (n(n-1))/2
+"""
