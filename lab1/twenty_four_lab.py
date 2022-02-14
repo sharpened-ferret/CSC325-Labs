@@ -84,7 +84,7 @@ def solve(digits, goal, calcs, all_values):
 
 def main():
     digits = []
-    for i in range(4):
+    for i in range(6):
         digits.append(randint(1,13))
 
     time_one = time.time()
@@ -115,5 +115,5 @@ Task 2:
 
 Changes to a, b, or M should have a minimal effect on the program performance,
 however, increases in n will have a significant effect, since the program loops
-over all possible pairs of digits in n, so increases with (n(n-1))/2
+over all possible pairs of digits in n, so increases with n((n(n-1))/2)
 """
