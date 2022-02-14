@@ -94,7 +94,7 @@ def main():
     time_three = time.time()
 
     single_runtime = time_two - time_one
-    print("----Single Result----\nInput: {}\nFound Solution: {}\nRuntime: {}\n".format(
+    print("----Single Result----\nInput: {}\nFound Solution: {}\nRuntime: {}s\n".format(
         digits,
         single_result, 
         single_runtime))
@@ -104,7 +104,7 @@ def main():
         digits,))
     for result in global_store:
         print(result)
-    print("Runtime: {}".format(exhaustion_runtime))
+    print("Runtime: {}s".format(exhaustion_runtime))
 
 
 if __name__ == "__main__":
