@@ -78,7 +78,6 @@ def solve(digits, goal, calcs, all_values):
             recurr = solve(new_digits, goal, calc_str, all_values)
             if recurr:
                 return recurr
-                # global_store.append(recurr)
             else:
                 continue
 
