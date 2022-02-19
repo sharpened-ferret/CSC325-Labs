@@ -81,7 +81,7 @@ def main():
     digits = []
     for i in range(4):
         digits.append(randint(1,13))
-    print(solve(digits, goal=24, calcs=[]))
+    print("{} = 24".format(solve(digits, goal=24, calcs=[])))
 
 
 if __name__ == "__main__":
