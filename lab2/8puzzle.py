@@ -70,7 +70,6 @@ class BoardState:
         self.g = None
         self.h = None
         self.f = None
-        # self.children = self.gen_children(self.empty_pos)
 
     def __str__(self):
         return "parent=[{}], board={}".format(self.parent, self.board)
@@ -173,7 +172,8 @@ def a_star(board):
                 if child == open_state and child.g > open_state.g:
                     new_state = False
                     continue
-            open_list.append(child)
+            if new_state:
+                open_list.append(child)
 
 def greedy(board):
     start_state = BoardState(None, board)
@@ -231,7 +231,6 @@ def heuristic_sort(e):
 
 def main():
     test_puzzle = [[1,8,2], [-1, 4, 3], [7,6,5]]
-    test_2 = [[-1, 3, 5], [2, 1, 6], [7, 4, 8]]
     test_board = generate_board(3)
     print(test_board)
     base_node = BoardState(None, test_puzzle)
