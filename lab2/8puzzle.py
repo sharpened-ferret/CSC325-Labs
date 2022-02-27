@@ -1,4 +1,5 @@
 from random import randint
+from threading import local
 
 # N-puzzles are solvable if the number of inversions (required swaps) is even
 # Therefore, to check validity, we must count the number of inversions and check if even or odd
@@ -48,12 +49,26 @@ def generate_board(size):
     return board
 
 class BoardState:
+    goal_dict = {
+        1 : (0, 0),
+        2 : (0, 1),
+        3 : (0, 2),
+        4 : (1, 0),
+        5 : (1, 1),
+        6 : (1, 2),
+        7 : (2, 0),
+        8 : (2, 1),
+        -1 : (2, 2),
+    }
     empty_marker = -1    
 
     def __init__(self, parent, board):
         self.board = board
         self.parent = parent
         self.empty_pos = self.find_empty()
+        self.g = None
+        self.h = None
+        self.f = None
         # self.children = self.gen_children(self.empty_pos)
 
     def __str__(self):
@@ -61,6 +76,9 @@ class BoardState:
     
     def __repr__(self):
         return self.__str__()+"\n"
+
+    def __eq__(self, other):
+        return self.board == other.board
 
     def find_empty(self):
         board_size = len(self.board)
@@ -71,30 +89,100 @@ class BoardState:
                     empty_pos = (row, col)
         return empty_pos
     
-    def gen_children(self, empty_pos):
+    def gen_children(self):
         children = []
         neighbours = [
-            (empty_pos[0], empty_pos[1]+1),
-            (empty_pos[0], empty_pos[1]-1),
-            (empty_pos[0]+1, empty_pos[1]),
-            (empty_pos[0]-1, empty_pos[1])
+            (self.empty_pos[0], self.empty_pos[1]+1),
+            (self.empty_pos[0], self.empty_pos[1]-1),
+            (self.empty_pos[0]+1, self.empty_pos[1]),
+            (self.empty_pos[0]-1, self.empty_pos[1])
         ]
         for neighbour in neighbours:
             try:
                 board = [row[:] for row in self.board]
                 pos_val = board[neighbour[0]][neighbour[1]]
-                board[empty_pos[0]][empty_pos[1]] = pos_val
+                board[self.empty_pos[0]][self.empty_pos[1]] = pos_val
                 board[neighbour[0]][neighbour[1]] = self.empty_marker
                 children.append(BoardState(self, board))
             except:
                 continue
-        print(children)
+        self.children = children
+
+    def manhattan_cost(self):
+        cost = 0
+        for y in range(len(self.board)):
+            for x in range(len(self.board)):
+                tile_val = self.board[y][x]
+                goal_pos = self.goal_dict.get(tile_val)
+                cost += abs(y - goal_pos[0]) + abs(x - goal_pos[1])
+
+        return cost
+
+
+def a_star(board):
+    start_state = BoardState(None, board)
+    start_state.g = 0
+    start_state.h = 0
+    start_state.f = 0
+    end_state = BoardState(None, [[1,2,3], [4,5,6], [7,8,-1]])
+    end_state.g = 0
+    end_state.h = 0
+    end_state.f = 0
+
+    open_list = []
+    closed_list = []
+
+    open_list.append(start_state)
+
+    # While there are still unexplored nodes
+    while(len(open_list) > 0):
+        current_state = open_list[0]
+        current_index = 0
+        for index, state in enumerate(open_list):
+            if state.f < current_state.f:
+                current_state = state
+                current_index = index
+
+        # print(current_state.board)
+        
+        open_list.pop(current_index)
+        closed_list.append(current_state)
+
+        if current_state == end_state:
+            path = []
+            current = current_state
+            while current is not None:
+                path.append(current.board)
+                current = current.parent
+            print("\nPATH FOUND:\n")
+            return path[::-1]
+        
+        current_state.gen_children()
+        for child in current_state.children:
+            for closed_state in closed_list:
+                if child == closed_state:
+                    continue
+            child.g = current_state.g + 1
+            child.h = child.manhattan_cost()
+            child.f = child.g + child.h
+            
+            for open_state in open_list:
+                if child == open_state and child.g > open_state.g:
+                    continue
+            open_list.append(child)
+        
+        
+
+
 
 
 
 test_puzzle = [[1,8,2], [-1, 4, 3], [7,6,5]]
 test_board = generate_board(3)
 print(test_board)
-base_node = BoardState(None, test_board)
-base_node.gen_children(base_node.empty_pos)
+base_node = BoardState(None, test_puzzle)
+# base_node.gen_children(base_node.empty_pos)
+print(base_node.manhattan_cost())
+print(a_star(base_node.board))
+# print(a_star([[-1, 1, 2], [3, 4, 5], [6,7,8]]))
 # print(count_inversion(test_puzzle))
