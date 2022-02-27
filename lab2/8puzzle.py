@@ -154,7 +154,6 @@ def a_star(board):
             while current is not None:
                 path.append(current.board)
                 current = current.parent
-            print("\nPATH FOUND:\n")
             return path[::-1]
         
         current_state.gen_children()
@@ -201,7 +200,6 @@ def greedy(board):
             while current is not None:
                 path.append(current.board)
                 current = current.parent
-            print("\nPATH FOUND:\n")
             return path[::-1]
         
         current_state.gen_children()
@@ -255,8 +253,24 @@ def main():
             print(row)
         print("\n")
 
-    print("A* Run Details:\nMove Number: {}, Runtime: {}".format(len(path), (a_end - a_start)))
+    print("\nA* Run Details:\nMove Number: {}, Runtime: {}".format(len(path), (a_end - a_start)))
     print("\nGreedy Run Details:\nMove Number: {}, Runtime: {}".format(len(greedy_path), (g_end - g_start)))
+
+
+    print("\n---Average Runs---")
+    NUM_LOOPS = 10
+    a_star_total = 0
+    greedy_total = 0
+    for i in range(NUM_LOOPS):
+        curr_board = generate_board(3)
+        time1 = time.time()
+        a_star(curr_board)
+        time2 = time.time()
+        greedy(curr_board)
+        time3 = time.time()
+        a_star_total += time2 - time1
+        greedy_total += time3 - time2
+    print("A* Avg. Time: {}\nGreedy Avg. Time: {}".format((a_star_total/NUM_LOOPS), (greedy_total/NUM_LOOPS)))
 
     # print(count_inversion(test_puzzle))
 
