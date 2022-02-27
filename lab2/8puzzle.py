@@ -170,21 +170,85 @@ def a_star(board):
                 if child == open_state and child.g > open_state.g:
                     continue
             open_list.append(child)
+
+def greedy(board):
+    start_state = BoardState(None, board)
+    start_state.h = 0
+    end_state = BoardState(None, [[1,2,3], [4,5,6], [7,8,-1]])
+    end_state.h = 0
+
+    open_list = []
+    closed_list = []
+
+    open_list.append(start_state)
+
+    # While there are still unexplored nodes
+    while(len(open_list) > 0):
+        current_state = open_list[0]
+        current_index = 0
+
+        print(str(current_state.board))
+        open_list.remove(current_state)
+        closed_list.append(current_state)
+
+        if current_state == end_state:
+            path = []
+            current = current_state
+            while current is not None:
+                path.append(current.board)
+                current = current.parent
+            print("\nPATH FOUND:\n")
+            return path[::-1]
         
-        
+        current_state.gen_children()
+        for child in current_state.children:
+            new_state = True
+
+            for closed_state in closed_list:
+                if child == closed_state:
+                    new_state = False
+                    break
+            child.h = child.manhattan_cost()
+            
+            for open_state in open_list:
+                if child == open_state:
+                    new_state = False
+                    break
+            if new_state:
+                open_list.append(child)
+        open_list.sort(key=heuristic_sort)
+
+def heuristic_sort(e):
+    return e.h
+
 
 
 
 
 
 test_puzzle = [[1,8,2], [-1, 4, 3], [7,6,5]]
+test_2 = [[-1, 3, 5], [2, 1, 6], [7, 4, 8]]
 test_board = generate_board(3)
 print(test_board)
-base_node = BoardState(None, test_board)
-print(base_node.manhattan_cost())
-path = a_star(base_node.board)
+base_node = BoardState(None, test_puzzle)
+
+print("\nA*:\n")
+path = a_star(test_board)
 for board in path:
     for row in board:
         print(row)
     print("\n")
+
+
+print("\nGreedy:\n")
+print(base_node.manhattan_cost())
+greedy_path = greedy(test_board)
+for board in greedy_path:
+    for row in board:
+        print(row)
+    print("\n")
+
+print("A* Run Details:\nMove Number: {}, Runtime: ".format(len(path)))
+print("Greedy Run Details:\nMove Number: {}, Runtime: ".format(len(greedy_path)))
+
 # print(count_inversion(test_puzzle))
