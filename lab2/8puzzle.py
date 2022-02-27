@@ -143,7 +143,7 @@ def a_star(board):
                 current_state = state
                 current_index = index
 
-        # print(current_state.board)
+        print(current_state.board)
         
         open_list.pop(current_index)
         closed_list.append(current_state)
@@ -180,9 +180,11 @@ def a_star(board):
 test_puzzle = [[1,8,2], [-1, 4, 3], [7,6,5]]
 test_board = generate_board(3)
 print(test_board)
-base_node = BoardState(None, test_puzzle)
-# base_node.gen_children(base_node.empty_pos)
+base_node = BoardState(None, test_board)
 print(base_node.manhattan_cost())
-print(a_star(base_node.board))
-# print(a_star([[-1, 1, 2], [3, 4, 5], [6,7,8]]))
+path = a_star(base_node.board)
+for board in path:
+    for row in board:
+        print(row)
+    print("\n")
 # print(count_inversion(test_puzzle))
