@@ -1,0 +1,167 @@
+CSC-325
+Artificial Intelligence
+Dr. Adam Wyner
+
+9 March 2022
+
+Lab 4
+
+Last sign-off date is 21 March at 17:00
+
+The practical has four parts, all of which must be completed to complete the lab.
+
+Your work, solution, and code should be your own. If you discuss how to address the problem, use words and narratives.
+
+To get signed off, you should:
+
+* Show your code and solutions to a lecturer/demonstrator;
+* Explain your code and solutions to a lecturers/ demonstrators.
+
+Tip: refer to Learn Prolog Now! for further information, particularly sections on lists, cut, and negation as failure.
+ 
+Part I
+
+NOTE: Don't use lists to provide an answers to parts I-II. You can use a list to answer part III.
+
+% SCENARIO:
+
+% We are given the following knowledge base of travel information:
+
+% KB:
+
+byCar(auckland,hamilton).
+byCar(hamilton,raglan).
+byCar(valmont,saarbruecken).
+byCar(valmont,metz).
+
+byTrain(metz,frankfurt).
+byTrain(saarbruecken,frankfurt).
+byTrain(metz,paris).
+byTrain(saarbruecken,paris).
+           
+byPlane(frankfurt,bangkok).
+byPlane(frankfurt,singapore).
+byPlane(paris,losAngeles).
+byPlane(bangkok,auckland).
+byPlane(losAngeles,auckland).
+
+% PROBLEM:
+
+% Write a predicate travel/2 which determines whether it is possible to travel 
+% from one place to another by ‘chaining together’ car, train, and plane journeys.
+% For example, your program should answer ‘yes’ to the query travel(valmont,raglan).
+% Take care that your answers are valid.
+
+% QUERIES:
+
+% Can you get from Valmont to Raglan? 
+%?- travel(valmont,raglan).
+% Where can you get from Valmont to? Give the first 9 answers.
+% Are there any problems getting further results? Describe the problem.
+% For
+%?- travel(valmont, singapore)
+% What are the means of travel; give this as a narrative answer.
+
+Part II
+
+% SCENARIO:
+
+% By using travel/2 from Part I to query the database, you can find out that 
+% it is possible to go from Valmont to Raglan. What you would then really want to 
+% know is what is the route to get from Valmont to Raglan.
+
+% KB:
+
+byCar(auckland,hamilton).
+byCar(hamilton,raglan).
+byCar(valmont,saarbruecken).
+byCar(valmont,metz).
+
+byTrain(metz,frankfurt).
+byTrain(saarbruecken,frankfurt).
+byTrain(metz,paris).
+byTrain(saarbruecken,paris).
+           
+byPlane(frankfurt,bangkok).
+byPlane(frankfurt,singapore).
+byPlane(paris,losAngeles).
+byPlane(bangkok,auckland).
+byPlane(losAngeles,auckland).
+
+% PROBLEM:
+
+% Write a predicate travel/3 which tells you how to go (the path, not the means) from one place to another.
+% Your answers to the queries below should paths, not simply answering ‘yes’ or ‘no’.
+% Note the form of the query and answers, which should indicate the form of the predicate.
+
+% QUERIES:
+
+% Can you travel from Valmont to Paris via Metz?
+%?- travel(valmont,paris,go(valmont,metz,go(metz,paris))).
+%true.
+
+% What are the routes from Valmont to Los Angeles?
+%?- travel(valmont,losAngeles,X).
+%X = go(valmont, saarbruecken, go(saarbruecken, paris, go(paris, losAngeles))) ;
+%X = go(valmont, metz, go(metz, paris, go(paris, losAngeles))) ;
+%false.
+
+% What would be a query which asks what cities would you need to pass through on a trip from valmont to losAngeles?
+ 
+Part III
+
+% SCENARIO:
+
+% In the KB, we have direct trains from A to B. But, it is also
+% reasonable to assume that one also has a direct train from B to A.
+
+% KB:
+
+directTrain(saarbruecken,dudweiler).
+directTrain(forbach,saarbruecken).
+directTrain(freyming,forbach).
+directTrain(stAvold,freyming).
+directTrain(fahlquemont,stAvold).
+directTrain(metz,fahlquemont).
+directTrain(nancy,metz).
+
+% PROBLEM:
+
+% Write a predicate to represent that where there is a train connection A to B,
+% there is also a train connection from B to A.
+% Write a predicate route/3 which gives you a list of towns that are visited by 
+% taking the train from one town to another. Note that you will need to work with
+% list structures and list procedures.
+% Hint: you do not want redundant elements in your list, nor do you want ‘digressions’ not on the route.
+
+% QUERIES:
+
+% Here are some queries (expressed in Natural Language) that your solution should
+% answer correctly.
+
+% What is the route from Forbach to Metz?
+%?- route(forbach,metz,Route).
+%Route = [forback,freyming,stAvold,fahlquemont,metz]
+%The point is that you have two endpoints, and you want to find the route. Once  you have a route, you can then also ask questions about what connects them.
+% What cities are connected via the route through Saarbruecken,Forbach, Freyming, St Avold, Fahlquemont, and Metz?
+%?- route(X,Y,[X,saarbruecken,forbach,freyming,stAvold,fahlquemont,metz,Y]).
+%X = dudweiler,
+%Y = nancy
+%?- route(X,Z,[X,saarbruecken,forbach,Y,stAvold,fahlquemont,metz,Z]).
+%X = dudweiler,
+%Y = freyming,
+%Z = nancy
+
+Part IV
+
+Describe all steps of backward chaining, where \+ is a symbol of negation as failure and starting hypothesis is C.
+
+Knowledge base:
+
+Rules:
+
+Rule 1. A ^ B => C
+Rule 2. \+X => A
+Rule 3. D ^ F => X
+
+MO: D, F, B
