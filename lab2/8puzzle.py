@@ -1,5 +1,4 @@
 from random import randint
-from threading import local
 import time
 
 # N-puzzles are solvable if the number of inversions (required swaps) is even
