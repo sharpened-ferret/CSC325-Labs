@@ -56,3 +56,39 @@ Frankfurt -> Singapore by plane
 */
 
 
+% Problem 2
+
+% go(X, Y, Z) :- 
+%     byPlane(X, Y) 
+%     ; byCar(X, Y) 
+%     ; byTrain(X, Y).
+
+travel(X, Y, go(X, Z, go(Z, Y))) :-
+    byPlane(X, Y) 
+    ; byCar(X, Y) 
+    ; byTrain(X, Y)
+    ; travel(X, Z), travel(Z, Y).
+
+% Can you travel from Valmont to Paris via Metz?
+?- travel(valmont,paris,go(valmont,metz,go(metz,paris))).
+
+/*
+  travel(valmont, losAngeles, X).
+*/
+
+
+% Problem 3
+
+% KB:
+directTrain(saarbruecken,dudweiler).
+directTrain(forbach,saarbruecken).
+directTrain(freyming,forbach).
+directTrain(stAvold,freyming).
+directTrain(fahlquemont,stAvold).
+directTrain(metz,fahlquemont).
+directTrain(nancy,metz).
+
+% Write a predicate to represent that where there is a train connection A to B,
+% there is also a train connection from B to A.
+directTrain(A, B) :- directTrain(B,A).
+
