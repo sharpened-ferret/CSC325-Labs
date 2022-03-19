@@ -58,16 +58,19 @@ Frankfurt -> Singapore by plane
 
 % Problem 2
 
-% go(X, Y, Z) :- 
-%     byPlane(X, Y) 
-%     ; byCar(X, Y) 
-%     ; byTrain(X, Y).
-
-travel(X, Y, go(X, Z, go(Z, Y))) :-
+travel(X, Y, go(X, Y)) :-
     byPlane(X, Y) 
     ; byCar(X, Y) 
-    ; byTrain(X, Y)
-    ; travel(X, Z), travel(Z, Y).
+    ; byTrain(X, Y).
+
+travel(X, Y, go(X, Z, G)) :-
+    byTrain(X, Z), travel(Z, Y, G).
+
+travel(X, Y, go(X, Z, G)) :-
+    byCar(X, Z), travel(Z, Y, G).
+
+travel(X, Y, go(X, Z, G)) :-
+    byPlane(X, Z), travel(Z, Y, G).
 
 % Can you travel from Valmont to Paris via Metz?
 ?- travel(valmont,paris,go(valmont,metz,go(metz,paris))).
