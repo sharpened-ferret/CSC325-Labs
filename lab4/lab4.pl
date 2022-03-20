@@ -95,3 +95,56 @@ directTrain(nancy,metz).
 % there is also a train connection from B to A.
 directTrain(A, B) :- directTrain(B,A).
 
+
+
+% Problem 4
+
+/* 
+Rules:
+1. A and B implies C
+2. negation X imples A
+3. D and F imples X
+
+Initial Memory:
+D = True
+F = True
+B = True
+
+Hypothesis C:
+  C is not in initial memory
+  C is the head of rule 1
+  New hypothesis for A and B
+    B is proven,
+    A is not proven
+      Therefore C is not proven 
+
+Hypothesis B:
+  B is in memory, 
+    therefore hypothesis B is proven
+
+Hypothesis A:
+  A is not in memory
+  A is the head of rule 2
+    If Hypothesis \+X then A
+      hypothesis \+X is not proven
+        therefore A is not proven
+
+Hypothesis \+X:
+  X is not in memory
+  X is the head of rule 3
+  New Hypothesis D and F
+  D and F are true, 
+    therefore X is true
+      therefore \+X is not proven
+
+Hypothesis D:
+  D is in memory
+    therefore hypothesis D is proven
+
+Hypothesis F:
+  F is in memory
+    Therefore F is proven
+
+  
+
+*/
