@@ -81,3 +81,64 @@ display_rule_chain( [if C then P | Rules], Indent) :-
     display_rule_chain( Rules, NextIndent).
 
 :- dynamic already_asked/1.
+
+
+% KB 
+:- op( 100, xfx, [has, gives, 'does not', eats, lays, isa] ).
+:- op( 100, xf, [swims, flies] ).
+
+rule1 : if
+        Animal has hair
+    or
+        Animal gives milk
+    then
+        Animal isa mammal.
+
+rule2 : if
+        Animal has feathers
+    or
+        Animal flies and   
+        Animal lays eggs
+    then
+        Animal isa bird.
+
+rule3: if
+        Animal isa mammal and
+        ( Animal eats meat
+    or
+        Animal has pointed teeth and
+        Animal has claws and
+        Animal has 'forward pointing eyes')
+        Animal isa carnivore.
+
+rule4: if
+        Animal isa carnivore and
+        Animal has 'tawny colour' and
+        Animal has 'dark spots'
+    then
+        Animal isa cheetah. 
+
+rule6 : if
+        Animal isa bird and
+        Animal 'does not' fly and
+        Animal swims
+    then
+        Animal isa penguin.
+
+rule7 : if
+        Animal isa bird and
+        Animal isa 'good flyer'
+    then
+        Animal isa albatross.
+
+fact : X isa animal :-
+    member( X, [cheetah, tiger, penguin, albatrossl ).
+
+askable( - gives -, 'Animal' gives 'What').
+askable( - flies, 'Animal' flies).
+askable( - lays eggs, 'Animal' lays eggs).
+askable( - eats -, 'Animal' eats 'What').
+askable( - has -, 'Animal' has 'Something').
+askable( - 'does not' -, 'Animal' 'does not' 'DoSomething').
+askable( - swims, 'Animal' swims).
+askable( - isa 'good flier', 'Animal' isa 'good flier').
