@@ -84,26 +84,65 @@ display_rule_chain( [if C then P | Rules], Indent) :-
 
 
 % KB 
-:- op( 100, xfx, [has, is, may_be, went_to] ).
-:- op( 100, xf, [] ).
+:- op( 100, xfx, [has, gives, 'does not', eats, lays, isa] ).
+:- op( 100, xf, [swims, flies] ).
 
-fact : X went_to party :-
-    member( X, [cheetah, tiger, penguin, albatross] ).
-
-if 
-    Person has no_symptoms
-then 
-    Person is healthy.
-
-if 
-    Person went_to party
-    and
-        other_person is infected
+    if
+        Animal has hair
+    or
+        Animal gives milk
     then
-        Person may_be infected.
+        Animal isa mammal.
 
+    if
+        Animal has feathers
+    or
+        Animal flies and   
+        Animal lays eggs
+    then
+        Animal isa bird.
 
+    if
+        Animal isa mammal and
+        ( Animal eats meat
+        or
+        Animal has 'pointed teeth' and
+        Animal has claws and
+        Animal has 'forward pointing eyes')
+    then
+        Animal isa carnivore.
 
-askable( _ is _ ).
-askable( _ may_be _).
-askable( _ went_to _).
+    if
+        Animal isa carnivore and
+        Animal has 'tawny colour' and
+        Animal has 'dark spots'
+    then
+        Animal isa cheetah. 
+
+    if
+        Animal isa bird and
+        Animal 'does not' fly and
+        Animal swims
+    then
+        Animal isa penguin.
+
+    if
+        Animal isa bird and
+        Animal isa 'good flyer'
+    then
+        Animal isa albatross.
+
+fact : X isa animal :-
+    member( X, [cheetah, tiger, penguin, albatross] ).
+fact : X has hair :-
+    member( X, [cheetah] ).
+
+askable( _ gives _, 'Animal' gives 'What').
+askable( _ flies, 'Animal' flies).
+askable( _ lays eggs, 'Animal' lays eggs).
+askable( _ eats _, 'Animal' eats 'What').
+askable( _ has _, 'Animal' has 'Something').
+askable( _ 'does not' _, 'Animal' 'does not' 'DoSomething').
+askable( _ swims, 'Animal' swims).
+askable( _ isa 'good flier', 'Animal' isa 'good flier').
+askable( _ isa carnivore).
