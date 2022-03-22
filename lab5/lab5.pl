@@ -84,26 +84,50 @@ display_rule_chain( [if C then P | Rules], Indent) :-
 
 
 % KB 
-:- op( 100, xfx, [has, is, may_be, went_to] ).
+:- op( 100, xfx, [has, is, may, went_to, had, should] ).
 :- op( 100, xf, [] ).
+:- op( 200, fy, [not]).
 
 fact : X went_to party :-
     member( X, [cheetah, tiger, penguin, albatross] ).
 
 if 
-    Person has no_symptoms
+    Person went_to party
+    and
+        other_partygoer has tested_positive
+    then
+        Person may be_infected.
+
+if 
+    Person had no_symptoms_for_two_weeks
+and 
+    Person has isolated_for_two_weeks
 then 
     Person is healthy.
 
+
 if 
-    Person went_to party
-    and
-        other_person is infected
-    then
-        Person may_be infected.
+    Person is not_vaccinated
+or 
+    Person has no_previous_illness
+then
+    Person may not_be_immune.
+
+if 
+    Person may be_infected
+and
+    Person may not_be_immune
+and 
+    Person has symptoms
+then
+    Person should get_tested.
 
 
 
 askable( _ is _ ).
-askable( _ may_be _).
-askable( _ went_to _).
+askable( _ may _ ).
+askable( _ went_to _ ).
+askable( not _ ).
+askable( _ has _ ).
+askable( _ had _ ).
+askable( _ should _ ). 
