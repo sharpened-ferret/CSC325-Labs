@@ -56,3 +56,8 @@ n(n(woman), [woman| A], A).
 n(n(man), [man | A], A).
 % v --> [hire].
 v(v(hires), [hires | A], A).
+
+
+% --- Tests ---
+% s(Tree, [a,man,hires,a,woman],[]).
+% s(Tree, [a,woman,hires,the,woman],[]).
