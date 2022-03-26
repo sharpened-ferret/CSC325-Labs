@@ -24,7 +24,7 @@ n([woman| A], A).
 % n --> [man].
 n([man | A], A).
 % v --> [hire].
-v([hire | A], A).
+v([hires | A], A).
 
 
 
@@ -55,4 +55,4 @@ n(n(woman), [woman| A], A).
 % n --> [man].
 n(n(man), [man | A], A).
 % v --> [hire].
-v(v(hire), [hire | A], A).
+v(v(hires), [hires | A], A).
