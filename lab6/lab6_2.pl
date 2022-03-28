@@ -85,12 +85,14 @@ vp(vp(Tree1, Tree2), A, C, Plurality) :-
 det(det(the), [the | A], A, _).
 % det --> [a].
 det(det(a), [a | A], A, singular).
+%det --> [two].
+det(det(two), [two | A], A, plural).
 % n --> [woman].
 n(n(woman), [woman| A], A, singular).
 n(n(women), [women| A], A, plural).
 % n --> [man].
 n(n(man), [man | A], A, singular).
-n(n(man), [man | A], A, plural).
+n(n(men), [men | A], A, plural).
 % v --> [hire].
 v(v(hires), [hires | A], A, singular).
 v(v(hire), [hire | A], A, plural).
