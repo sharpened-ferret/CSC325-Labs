@@ -85,7 +85,6 @@ display_rule_chain( [if C then P | Rules], Indent) :-
 
 % KB 
 :- op( 100, xfx, [has, is, may, went_to, had, should] ).
-:- op( 100, xf, [] ).
 :- op( 200, fy, [not]).
 
 fact : X went_to party :-
