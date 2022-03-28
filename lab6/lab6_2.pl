@@ -61,3 +61,36 @@ v(v(hires), [hires | A], A).
 % --- Tests ---
 % s(Tree, [a,man,hires,a,woman],[]).
 % s(Tree, [a,woman,hires,the,woman],[]).
+
+
+
+% ---- Trace Rules with Quantity ---- %
+
+% s --> np,vp.
+s(s(Tree1, Tree2), A, C, Plurality) :-
+    np(Tree1, A, B, Plurality),
+    vp(Tree2, B, C, Plurality).
+
+% np --> det,n.
+np(np(Tree1, Tree2), A, C, Plurality) :-
+    det(Tree1, A, B, Plurality),
+    n(Tree2, B, C, Plurality).
+
+% vp --> v,np.
+vp(vp(Tree1, Tree2), A, C, Plurality) :-
+    v(Tree1, A, B, Plurality),
+    np(Tree2, B, C, Plurality). 
+
+% det --> [the].
+det(det(the), [the | A], A, _).
+% det --> [a].
+det(det(a), [a | A], A, singular).
+% n --> [woman].
+n(n(woman), [woman| A], A, singular).
+n(n(women), [women| A], A, plural).
+% n --> [man].
+n(n(man), [man | A], A, singular).
+n(n(man), [man | A], A, plural).
+% v --> [hire].
+v(v(hires), [hires | A], A, singular).
+v(v(hire), [hire | A], A, plural).
